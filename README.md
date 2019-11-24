@@ -1,5 +1,5 @@
 # NikoBot [![Build Status](https://api.travis-ci.com/skw-nikobot/NikoBot.svg?branch=master)](https://travis-ci.com/skw-nikobot/NikoBot)
-
+###### tags: `NikoBot`
 <img align="right" src="https://i.imgur.com/mLzy2i2.png?raw=true" height="200" width="200">
 
 #### A basic Discord bot.
@@ -20,12 +20,15 @@ Then restart bot to reload the config.
 ```/reboot```reboot bot.  
 ```/wake```set bot's status to online mode.  
 ```/sleep```set bot's status to idle mode. On this mode bot will not response plugins' common commands.  
-```/setgame <Game>```set bot's current playing game's name.
+```/setgame <Game>```set bot's current playing game's name.  
 ## Plugin
 You can install plugin by putting its jar file into ```plugins``` folder, and then reboot bot.
 When making plugin, remember to add ```NikoBot.jar``` to your project's build path.
 If your plugin need additional libraries (e.g. lavaplayer.jar), please put them into ```libs``` folder.
 Before exporting your plugin's jar file, you need to create ```Niko.yml``` file in project directory. Its formate is shown as follows.
+### Plugins provided by us.
+#### [List](https://github.com/Small2Space?utf8=%E2%9C%93&q=NikoBot-Plugin&type=&language=)
+
 ### Example
 
 #### Say
