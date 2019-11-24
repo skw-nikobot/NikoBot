@@ -14,12 +14,12 @@ java -Dfile.encoding=UTF8 -jar NikoBot.jar
 The first time you start this bot, it will generate cfg, libs, and plugins folder. You need to put your discord app token into ```cfg/token``` and discord user id (e.g. 2XXXXXXXX313887746) into ```cfg/admin```, if you have more than one id, put id into file line by line.
 Then restart bot to reload the config.
 ## Built-in commands
-```/info```show bot information.
-```/help```show all commands usage including plugins'.
-```/shutdown```shutdown bot.
-```/reboot```reboot bot.
-```/wake```set bot's status to online mode.
-```/sleep```set bot's status to idle mode. On this mode bot will not response plugins' common commands.
+```/info```show bot information.  
+```/help```show all commands usage including plugins'.  
+```/shutdown```shutdown bot.  
+```/reboot```reboot bot.  
+```/wake```set bot's status to online mode.  
+```/sleep```set bot's status to idle mode. On this mode bot will not response plugins' common commands.  
 ```/setgame <Game>```set bot's current playing game's name.
 ## Plugin
 You can install plugin by putting its jar file into ```plugins``` folder, and then reboot bot.
