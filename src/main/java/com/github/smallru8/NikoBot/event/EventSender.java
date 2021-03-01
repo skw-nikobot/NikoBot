@@ -5,8 +5,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import com.github.smallru8.NikoBot.Core;
-import com.github.smallru8.NikoBot.event.Event;
-
 public class EventSender extends ListenerAdapter{
 
 	@Override

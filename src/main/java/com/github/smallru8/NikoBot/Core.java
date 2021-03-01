@@ -9,7 +9,6 @@ import com.github.smallru8.NikoBot.commands.SysCMD;
 import com.github.smallru8.NikoBot.event.EventSender;
 import com.github.smallru8.NikoBot.plugins.PluginsManager;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -36,7 +35,9 @@ public class Core {
 		libLoad.loadExtLibs();
 		PM = new PermissionManager();
 		
-		JDABuilder jda = new JDABuilder(AccountType.BOT);
+		//JDA jda = JDABuilder.createDefault(CfgReader.token()).build();
+		//JDABuilder jda = new JDABuilder(AccountType.BOT);
+		JDABuilder jda = JDABuilder.createDefault("");
 		jda.setToken(CfgReader.token());
 		jda.setAutoReconnect(true);
 		jda.addEventListeners(new EventSender());
