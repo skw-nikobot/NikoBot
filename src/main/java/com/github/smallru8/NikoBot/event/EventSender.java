@@ -1,6 +1,8 @@
 package com.github.smallru8.NikoBot.event;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,7 +24,6 @@ public class EventSender extends ListenerAdapter{
 		if(!Core.sleepFlag)//send to normal plugins
 			if(EventBus.getDefault().hasSubscriberForEvent(Event.MessageEvent.class))
 				EventBus.getDefault().post(new Event.MessageEvent(event));
-		
 	}
 
 	/**
@@ -36,6 +37,18 @@ public class EventSender extends ListenerAdapter{
 		Core.ADMINS.addAdmin(guildID, event.getGuild().getOwner().getId());
 		File f = new File("servers/"+guildID);
 		f.mkdir();
+		f = new File("servers/" + guildID + "/allowedPlugins.conf");
+		if(!f.exists()) {
+			try {
+				FileWriter fw = new FileWriter(f);
+				fw.write("");
+				fw.flush();
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		Info info = new Info(guildID);
 		info.setInfo("Using /info set <text> to set info.");
 		Help help = new Help(guildID);

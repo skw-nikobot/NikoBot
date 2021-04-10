@@ -25,7 +25,7 @@ public class SysCMD extends ListenerAdapter{
 			/** Shutdown bot.*/
 			if(cmd.getContentRaw().split(" ")[0].equals("/shutdown")&&Core.ADMINS.isAdmin("", cmd)) {
 				for(int i=0;i<Core.pluginsMGR.pluginsClass.size();i++) {
-					Core.pluginsMGR.pluginsClass.elementAt(i).onDisable();
+					Core.pluginsMGR.pluginsClass.elementAt(i).first.onDisable();
 				}
 				Embed.EmbedSender(Color.pink,cmd.getChannel(),":octagonal_sign: おやすみなさい! System shutdown!","");
 				try {
@@ -39,7 +39,7 @@ public class SysCMD extends ListenerAdapter{
 			/** Reboot bot.*/
 			}else if(cmd.getContentRaw().split(" ")[0].equals("/reboot")&&Core.ADMINS.isAdmin("", cmd)) {
 				for(int i=0;i<Core.pluginsMGR.pluginsClass.size();i++) {
-					Core.pluginsMGR.pluginsClass.elementAt(i).onDisable();
+					Core.pluginsMGR.pluginsClass.elementAt(i).first.onDisable();
 				}
 				Embed.EmbedSender(Color.pink,cmd.getChannel(),":octagonal_sign: リロード! System reboot!","");
 				try {
@@ -81,7 +81,46 @@ public class SysCMD extends ListenerAdapter{
 					Core.botAPI.getPresence().setActivity(Activity.playing(Setting.GAME));
 				}else
 					cmd.getChannel().sendMessage("Usage:/setgame <Game>");
-			}	
+			/*plugins*/
+			}else if(cmd.getContentRaw().split(" ")[0].equals("/plugins")&&Core.ADMINS.isAdmin(event.getGuild().getId(), cmd)) {
+				String[] cmdstr = cmd.getContentRaw().split(" ");
+				if(cmdstr.length==1) {//Show plugins list
+					String tmp = "";
+					for(int i=0;i<Core.pluginsMGR.pluginsClass.size();i++) {
+						String name = Core.pluginsMGR.pluginsClass.elementAt(i).first.pluginsName();
+						
+						if(Core.pluginsMGR.isAllowedGuild(event.getGuild().getId(), name))
+							tmp+=":ballot_box_with_check:";
+						else
+							tmp+=":x:";
+						tmp+=name;
+						tmp+='\n';
+					}
+					Embed.EmbedSender(Color.pink, cmd.getChannel(), ":book: Plugins Active status", tmp);
+				}else if(cmdstr.length>2&&cmdstr[1].equals("enable")) {//Enable plugin
+					String name = "";
+					for(int i=2;i<cmdstr.length;i++)
+						name+=cmdstr[i];
+					if(Core.pluginsMGR.isExist(name)&&Core.pluginsMGR.permissionCheck(event.getGuild().getId(), cmd.getAuthor().getId(), name)) {
+						Core.pluginsMGR.editAllowedGuild(event.getGuild().getId(), name, "true");
+					}else {
+						cmd.getChannel().sendMessage("Plugin not found or permission not enough.").queue();
+					}
+				}else if(cmdstr.length>2&&cmdstr[1].equals("disable")) {//Disable plugin
+					String name = "";
+					for(int i=2;i<cmdstr.length;i++)
+						name+=cmdstr[i];
+					if(Core.pluginsMGR.isExist(name)&&Core.pluginsMGR.permissionCheck(event.getGuild().getId(), cmd.getAuthor().getId(), name)) {
+						Core.pluginsMGR.editAllowedGuild(event.getGuild().getId(), name, "false");
+					}else {
+						cmd.getChannel().sendMessage("Plugin not found or permission not enough.").queue();
+					}
+				}
+
+			}
+			
+			
+			
 		}	
 	}
 }
