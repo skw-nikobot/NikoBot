@@ -1,0 +1,146 @@
+package com.github.smallru8.NikoBot.Setting;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+
+import com.github.smallru8.NikoBot.StdOutput;
+
+public class CfgChecker {
+	
+	public CfgChecker() {
+		StdOutput.infoPrintln("Checking config file...");
+		File f = new File("conf.d");
+		FileWriter fw;
+		try {
+			if(!f.exists())
+				f.mkdir();
+			f = new File("servers");
+			if(!f.exists())
+				f.mkdir();
+			f = new File("conf.d/status");
+			if(!f.exists()) {
+				StdOutput.infoPrintln("Create: " + f.getName());
+				fw = new FileWriter(f);
+				fw.write("#Game status\n");
+				fw.write("game=Play game\n");
+				fw.write("#discord status (online,unknown,offline,invisible,idle,donotdisturb)\n");
+				fw.write("status=online\n");
+				fw.flush();
+				fw.close();
+			}
+			f = new File("conf.d/admin");
+			if(!f.exists()) {
+				StdOutput.infoPrintln("Create: " + f.getName());
+				fw = new FileWriter(f);
+				fw.write("222650000259843584\n");
+				fw.flush();
+				fw.close();
+			}
+			f = new File("conf.d/token");
+			if(!f.exists()) {
+				StdOutput.infoPrintln("Create: " + f.getName());
+				fw = new FileWriter(f);
+				fw.write("#Put your token below this line.\n");
+				fw.flush();
+				fw.close();
+				StdOutput.warnPrintln("token file is empty.");
+			}
+			f = new File("plugins");
+			if(!f.exists()) {
+				f.mkdirs();
+			}
+			f = new File("libs");
+			if(!f.exists()) {
+				f.mkdirs();
+			}
+			f = new File("conf.d/servers");
+			if(!f.exists()) {
+				f.mkdirs();
+			}
+			f = new File("SQL");
+			if(!f.exists()) {
+				f.mkdirs();
+			}
+			f = new File("SQL/sql.conf");
+			if(!f.exists()) {
+				StdOutput.infoPrintln("Create: " + f.getName());
+				fw = new FileWriter(f);
+				fw.write("mySQL=false\n");
+				fw.write("host=127.0.0.1\n");
+				fw.write("port=3306\n");
+				fw.write("db=NikoBot\n");
+				fw.write("username=root\n");
+				fw.write("passwd=rootpasswd\n");
+				fw.flush();
+				fw.close();
+			}
+			StdOutput.infoPrintln("Checking config file...DONE!");
+		} catch (IOException e) {
+		// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadAll() {
+		loadToken();
+		loadStatus();
+	}
+	
+	public void loadToken() {
+		try {
+			FileReader fr = new FileReader("conf.d/token");
+			BufferedReader br = new BufferedReader(fr);
+			String token = "";
+			
+			while((token=br.readLine()).startsWith("#"));
+			
+			Setting.TOKEN = token;
+			br.close();
+			fr.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadStatus() {
+		try {
+			Properties pro = new Properties();
+			InputStream is = new FileInputStream("conf.d/status");
+			pro.load(is);
+			Setting.GAME = pro.getProperty("game","Play game");
+			Setting.STATUS = pro.getProperty("status","online");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveStatus(String key,String value) {
+		try {
+			Properties pro = new Properties();
+			InputStream is = new FileInputStream("conf.d/status");
+			OutputStream os = new FileOutputStream("conf.d/status");
+			pro.load(is);
+			pro.setProperty(key, value);
+			pro.store(os, "");
+			loadStatus();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+}

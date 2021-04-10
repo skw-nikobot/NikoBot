@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import javax.security.auth.login.LoginException;
 
+import com.github.smallru8.NikoBot.SQL.AdminData;
+import com.github.smallru8.NikoBot.Setting.CfgChecker;
+import com.github.smallru8.NikoBot.Setting.Setting;
 import com.github.smallru8.NikoBot.commands.CommonCMD;
 import com.github.smallru8.NikoBot.commands.SysCMD;
 import com.github.smallru8.NikoBot.event.EventSender;
@@ -16,41 +19,47 @@ import net.dv8tion.jda.api.entities.Activity;
 /**
  * NikoBot
  * @author smallru8
- * @version 1911.2
+ * @version 2104.1
  */
 public class Core {
 	
-	public static String botName = "";
+	public static CfgChecker configC;
+	public static JDA botAPI;
+	
 	public static boolean sleepFlag = false;
 	public static boolean osType = false;//windows = true;Linux = false;
+	
 	public static LibLoader libLoad;
-	public static JDA botAPI;
-	public static PermissionManager PM;
+	
+	public static AdminData ADMINS;
 	public static PluginsManager pluginsMGR;
 	public static void main( String[] args ) throws IOException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
     {
-		CfgChecker.cfgCheck();
+		/*基本設定*/
+		configC = new CfgChecker();
+		configC.loadAll();
+		
 		libLoad = new LibLoader();
 		libLoad.load();
 		libLoad.loadExtLibs();
-		PM = new PermissionManager();
 		
-		//JDA jda = JDABuilder.createDefault(CfgReader.token()).build();
-		//JDABuilder jda = new JDABuilder(AccountType.BOT);
-		JDABuilder jda = JDABuilder.createDefault("");
-		jda.setToken(CfgReader.token());
+		ADMINS = new AdminData();
+		
+		JDABuilder jda = JDABuilder.createDefault(Setting.TOKEN);
 		jda.setAutoReconnect(true);
 		jda.addEventListeners(new EventSender());
 		jda.addEventListeners(new SysCMD());
 		jda.addEventListeners(new CommonCMD());
-		CfgReader.status(jda);
-		botName = CfgReader.botName();
+		
+		Setting.status(jda);
+		
 		try {
 			botAPI = jda.build();
-			botAPI.getPresence().setActivity(Activity.playing(CfgReader.game()));
+			botAPI.getPresence().setActivity(Activity.playing(Setting.GAME));
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+		
 		pluginsMGR = new PluginsManager();
 		pluginsMGR.loadPlugins();
 		pluginsMGR.setUpPlugins();

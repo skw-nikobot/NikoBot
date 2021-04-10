@@ -1,10 +1,18 @@
 package com.github.smallru8.NikoBot.event;
 
+import java.io.File;
+
 import org.greenrobot.eventbus.EventBus;
+
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import com.github.smallru8.NikoBot.Core;
+import com.github.smallru8.NikoBot.StdOutput;
+import com.github.smallru8.NikoBot.commands.Help;
+import com.github.smallru8.NikoBot.commands.Info;
 public class EventSender extends ListenerAdapter{
 
 	@Override
@@ -15,6 +23,34 @@ public class EventSender extends ListenerAdapter{
 			if(EventBus.getDefault().hasSubscriberForEvent(Event.MessageEvent.class))
 				EventBus.getDefault().post(new Event.MessageEvent(event));
 		
+	}
+
+	/**
+	 * On bot join a guild
+	 */
+	@Override
+	public void onGuildJoin(GuildJoinEvent event) {
+		String guildID = event.getGuild().getId();
+		StdOutput.infoPrintln("Join server : " + guildID);
+		Core.ADMINS.addTable(guildID);
+		Core.ADMINS.addAdmin(guildID, event.getGuild().getOwner().getId());
+		File f = new File("servers/"+guildID);
+		f.mkdir();
+		Info info = new Info(guildID);
+		info.setInfo("Using /info set <text> to set info.");
+		Help help = new Help(guildID);
+		help.setHelp("Using /help set <text> to set help.");
+	}
+	
+	/**
+	 * On bot leave a guild
+	 */
+	@Override
+	public void onGuildLeave(GuildLeaveEvent event) {
+		StdOutput.infoPrintln("Leave server : " + event.getGuild().getId());
+		Core.ADMINS.delTable(event.getGuild().getId());
+		File f = new File("servers/"+event.getGuild().getId());
+		f.delete();
 	}
 	
 }

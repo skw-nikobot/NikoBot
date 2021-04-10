@@ -41,8 +41,8 @@ public class LibLoader {
 			libs.mkdir();
 		libsPath = libs.list();
 		Arrays.sort(libsPath);
-		if(!(new File("cfg/extra-libs.yml").exists())) {//cfg/extra-libs.yml
-			FileWriter fw = new FileWriter("cfg/extra-libs.yml");
+		if(!(new File("conf.d/extra-libs.yml").exists())) {//cfg/extra-libs.yml
+			FileWriter fw = new FileWriter("conf.d/extra-libs.yml");
 			fw.write("//Put your library path, using enter to split them.\n");
 			fw.flush();
 			fw.close();
@@ -76,7 +76,7 @@ public class LibLoader {
 	 * Load other JAR files to URLClassLoader Ext_LIB 
 	 */
 	public void loadExtLibs() throws IOException{
-		FileReader fr = new FileReader("cfg/extra-libs.yml");
+		FileReader fr = new FileReader("conf.d/extra-libs.yml");
 		BufferedReader br = new BufferedReader(fr);
 		String tmp = null;
 		ArrayList<URL> urlTmp = new ArrayList<URL>();

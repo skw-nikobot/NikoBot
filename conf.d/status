@@ -1,0 +1,4 @@
+#Game status
+game=Play game
+#discord status (online,unknown,offline,invisible,idle,donotdisturb)
+status=online
