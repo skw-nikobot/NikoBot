@@ -11,7 +11,7 @@ Java version : jdk11 or above
 ```
 java -Dfile.encoding=UTF8 -jar NikoBot.jar
 ```
-The first time you start this bot, it will generate cfg, libs, and plugins folder. You need to put your discord app token into ```cfg/token``` and discord user id (e.g. 2XXXXXXXX313887746) into ```cfg/admin```, if you have more than one id, put id into file line by line.
+The first time you start this bot, it will generate cfg, libs, and plugins folder. You need to put your discord app token into ```conf.d/token``` and discord user id (e.g. 2XXXXXXXX313887746) into ```conf.d/admin```, if you have more than one id, put id into file line by line.
 Then restart bot to reload the config.
 ## Built-in commands
 ```/info```show bot information.  
