@@ -40,16 +40,14 @@ public class CommonCMD extends ListenerAdapter{
 				
 			/*help*/
 			}else if(cmds[0].equalsIgnoreCase("/help")) {
-				if(Core.ADMINS.isAdmin(event.getGuild().getId(), cmd)) {
-					if(cmds.length > 2&&cmds[1].equals("set")) {
-						Help help = new Help(event.getGuild().getId());
-						String sum = "";
-						for(int i=2;i<cmds.length;i++) {
-							sum+=cmds[i];
-						}
-						help.setHelp(sum);
-						cmd.getChannel().sendMessage("New Help has saved. Using /help to show.").queue();
+				if(cmds.length > 2&&cmds[1].equals("set")&&Core.ADMINS.isAdmin(event.getGuild().getId(), cmd)) {
+					Help help = new Help(event.getGuild().getId());
+					String sum = "";
+					for(int i=2;i<cmds.length;i++) {
+						sum+=cmds[i];
 					}
+					help.setHelp(sum);
+					cmd.getChannel().sendMessage("New Help has saved. Using /help to show.").queue();
 				}else if(cmds.length==1) {
 					Help help = new Help(event.getGuild().getId());
 					Embed.EmbedSender(Color.pink, cmd.getChannel(), ":regional_indicator_h::regional_indicator_e::regional_indicator_l::regional_indicator_p:", help.getHelp());

@@ -103,6 +103,7 @@ public class SysCMD extends ListenerAdapter{
 						name+=cmdstr[i];
 					if(Core.pluginsMGR.isExist(name)&&Core.pluginsMGR.permissionCheck(event.getGuild().getId(), cmd.getAuthor().getId(), name)) {
 						Core.pluginsMGR.editAllowedGuild(event.getGuild().getId(), name, "true");
+						cmd.getChannel().sendMessage("Plugin "+name+" enable.").queue();
 					}else {
 						cmd.getChannel().sendMessage("Plugin not found or permission not enough.").queue();
 					}
@@ -112,14 +113,13 @@ public class SysCMD extends ListenerAdapter{
 						name+=cmdstr[i];
 					if(Core.pluginsMGR.isExist(name)&&Core.pluginsMGR.permissionCheck(event.getGuild().getId(), cmd.getAuthor().getId(), name)) {
 						Core.pluginsMGR.editAllowedGuild(event.getGuild().getId(), name, "false");
+						cmd.getChannel().sendMessage("Plugin "+name+" disable.").queue();
 					}else {
 						cmd.getChannel().sendMessage("Plugin not found or permission not enough.").queue();
 					}
 				}
 
 			}
-			
-			
 			
 		}	
 	}

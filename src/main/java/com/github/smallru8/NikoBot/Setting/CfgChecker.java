@@ -150,12 +150,13 @@ public class CfgChecker {
 	}
 	
 	public void buildServerConf(ArrayList<Guild> list) {
+		StdOutput.infoPrintln(list.get(0).getId());
 		for(int i=0;i<list.size();i++) {
 			if(!(new File("servers/"+list.get(i).getId()).exists())) {
 				String guildID = list.get(i).getId();
 				StdOutput.infoPrintln("Join server : " + guildID);
 				Core.ADMINS.addTable(guildID);
-				Core.ADMINS.addAdmin(guildID, list.get(i).getOwner().getId());
+				Core.ADMINS.addAdmin(guildID, list.get(i).getOwnerId());
 				File f = new File("servers/"+guildID);
 				f.mkdir();
 				f = new File("servers/" + guildID + "/allowedPlugins.conf");
@@ -171,9 +172,11 @@ public class CfgChecker {
 					}
 				}
 				Info info = new Info(guildID);
-				info.setInfo("Using /info set <text> to set info.");
+				if(!info.hasBeenSet())
+					info.setInfo("Using /info set <text> to set info.");
 				Help help = new Help(guildID);
-				help.setHelp("Using /help set <text> to set help.");
+				if(!help.hasBeenSet())
+					help.setHelp("Using /help set <text> to set help.");
 			}
 		}
 	}

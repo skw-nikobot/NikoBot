@@ -34,7 +34,7 @@ public class EventSender extends ListenerAdapter{
 		String guildID = event.getGuild().getId();
 		StdOutput.infoPrintln("Join server : " + guildID);
 		Core.ADMINS.addTable(guildID);
-		Core.ADMINS.addAdmin(guildID, event.getGuild().getOwner().getId());
+		Core.ADMINS.addAdmin(guildID, event.getGuild().getOwnerId());
 		File f = new File("servers/"+guildID);
 		f.mkdir();
 		f = new File("servers/" + guildID + "/allowedPlugins.conf");

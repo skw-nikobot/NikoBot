@@ -1,6 +1,7 @@
 package com.github.smallru8.NikoBot.commands;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,6 +12,10 @@ public class Info {
 	
 	public Info(String serverID) {
 		this.serverID = serverID;
+	}
+	
+	public boolean hasBeenSet() {
+		return new File("servers/"+serverID+"/info").exists();
 	}
 	
 	public void setInfo(String text) {

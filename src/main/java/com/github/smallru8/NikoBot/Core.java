@@ -22,7 +22,7 @@ import net.dv8tion.jda.api.entities.Guild;
 /**
  * NikoBot
  * @author smallru8
- * @version 2104.1
+ * @version 2104.2
  */
 public class Core {
 	
@@ -36,7 +36,7 @@ public class Core {
 	
 	public static AdminData ADMINS;
 	public static PluginsManager pluginsMGR;
-	public static void main( String[] args ) throws IOException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
+	public static void main( String[] args ) throws IOException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException
     {
 		/*基本設定*/
 		configC = new CfgChecker();
@@ -62,6 +62,8 @@ public class Core {
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+		
+		botAPI.awaitReady();
 		
 		configC.buildServerConf(new ArrayList<Guild>(botAPI.getGuilds()));
 		

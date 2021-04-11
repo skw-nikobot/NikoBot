@@ -30,9 +30,7 @@ public class AdminData extends SQL{
 		String sql = "CREATE TABLE ADMINS (UID VARCHAR(24) not NULL, PRIMARY KEY (UID));"; 
 		Connection conn = getSQLConnection();
 		try {
-			DatabaseMetaData dbm = conn.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "ADMINS", null);
-			if (!tables.next()) {//Table not exist. Create table
+			if (!isTableExist("ADMINS")) {//Table not exist. Create table
 				PreparedStatement ps = conn.prepareStatement(sql);
 				int ret = ps.executeUpdate();
 				ps.close();
@@ -61,24 +59,42 @@ public class AdminData extends SQL{
 		}
 	}
 	
+	private boolean isTableExist(String tableName) {
+		Connection conn = getSQLConnection();
+		try {
+			DatabaseMetaData dbm = conn.getMetaData();
+			ResultSet tables = dbm.getTables(null, null, tableName, null);
+			conn.close();
+			if (tables.next()) {//Table exist.
+				return true;
+			}
+		} catch (SQLException e) {
+				e.printStackTrace();
+		}
+		return false;
+	}
+	
 	/**
 	 * While bot join server, Call this mathod
 	 * @param serverID
 	 */
 	public void addTable(String serverID) {
-		String sql = "CREATE TABLE ADMINS" + serverID + " (UID VARCHAR(24) not NULL, PRIMARY KEY (UID));";
-		Connection conn = getSQLConnection();
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			int ret = ps.executeUpdate();
-			ps.close();
-			conn.close();
-			if(ret > 0)
-				StdOutput.infoPrintln("[SQL]Create table: ADMINS"+serverID);
-			else
-				StdOutput.errorPrintln("[SQL]Can't create table: ADMINS"+serverID);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if(!isTableExist("ADMINS"+serverID)) {
+			String sql = "CREATE TABLE ADMINS" + serverID + " (UID VARCHAR(24) not NULL, PRIMARY KEY (UID));";
+			Connection conn = getSQLConnection();
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				int ret = ps.executeUpdate();
+				ps.close();
+				conn.close();
+				if(ret > 0)
+					StdOutput.infoPrintln("[SQL]Create table: ADMINS"+serverID);
+				else
+					StdOutput.errorPrintln("[SQL]Can't create table: ADMINS"+serverID);
+			} catch (SQLException e) {
+				e.getMessage();
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -87,19 +103,21 @@ public class AdminData extends SQL{
 	 * @param serverID
 	 */
 	public void delTable(String serverID) {
-		String sql = "DROP TABLE ADMINS" + serverID + ";";
-		Connection conn = getSQLConnection();
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			int ret = ps.executeUpdate();
-			ps.close();
-			conn.close();
-			if(ret > 0)
-				StdOutput.infoPrintln("[SQL]Delete table: ADMINS"+serverID);
-			else
-				StdOutput.errorPrintln("[SQL]Can't delete table: ADMINS"+serverID);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if(isTableExist("ADMINS"+serverID)) {
+			String sql = "DROP TABLE ADMINS" + serverID + ";";
+			Connection conn = getSQLConnection();
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				int ret = ps.executeUpdate();
+				ps.close();
+				conn.close();
+				if(ret > 0)
+					StdOutput.infoPrintln("[SQL]Delete table: ADMINS"+serverID);
+				else
+					StdOutput.errorPrintln("[SQL]Can't delete table: ADMINS"+serverID);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
