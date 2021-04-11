@@ -2,6 +2,8 @@ package com.github.smallru8.NikoBot;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
 import javax.security.auth.login.LoginException;
 
 import com.github.smallru8.NikoBot.SQL.AdminData;
@@ -15,6 +17,7 @@ import com.github.smallru8.NikoBot.plugins.PluginsManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 
 /**
  * NikoBot
@@ -59,6 +62,8 @@ public class Core {
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+		
+		configC.buildServerConf(new ArrayList<Guild>(botAPI.getGuilds()));
 		
 		pluginsMGR = new PluginsManager();
 		pluginsMGR.loadPlugins();

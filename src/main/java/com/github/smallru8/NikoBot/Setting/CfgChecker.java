@@ -10,9 +10,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import com.github.smallru8.NikoBot.Core;
 import com.github.smallru8.NikoBot.StdOutput;
+import com.github.smallru8.NikoBot.commands.Help;
+import com.github.smallru8.NikoBot.commands.Info;
+
+import net.dv8tion.jda.api.entities.Guild;
 
 public class CfgChecker {
 	
@@ -140,6 +146,35 @@ public class CfgChecker {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void buildServerConf(ArrayList<Guild> list) {
+		for(int i=0;i<list.size();i++) {
+			if(!(new File("servers/"+list.get(i).getId()).exists())) {
+				String guildID = list.get(i).getId();
+				StdOutput.infoPrintln("Join server : " + guildID);
+				Core.ADMINS.addTable(guildID);
+				Core.ADMINS.addAdmin(guildID, list.get(i).getOwner().getId());
+				File f = new File("servers/"+guildID);
+				f.mkdir();
+				f = new File("servers/" + guildID + "/allowedPlugins.conf");
+				if(!f.exists()) {
+					try {
+						FileWriter fw = new FileWriter(f);
+						fw.write("");
+						fw.flush();
+						fw.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				Info info = new Info(guildID);
+				info.setInfo("Using /info set <text> to set info.");
+				Help help = new Help(guildID);
+				help.setHelp("Using /help set <text> to set help.");
+			}
 		}
 	}
 	
