@@ -107,7 +107,10 @@ public class CfgChecker {
 			BufferedReader br = new BufferedReader(fr);
 			String token = "";
 			
-			while((token=br.readLine()).startsWith("#"));
+			while((token=br.readLine())!=null&&token.startsWith("#"));
+			//System.out.println(token);
+			
+			//while((token=br.readLine()).startsWith("#"));
 			
 			Setting.TOKEN = token;
 			br.close();

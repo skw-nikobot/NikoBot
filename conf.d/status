@@ -1,4 +1,4 @@
 #Game status
-game=Play game
+game=T_Test
 #discord status (online,unknown,offline,invisible,idle,donotdisturb)
 status=online

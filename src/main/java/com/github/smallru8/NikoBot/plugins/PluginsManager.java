@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import com.github.smallru8.NikoBot.Core;
 import com.github.smallru8.NikoBot.LibLoader;
+import com.github.smallru8.NikoBot.StdOutput;
 import com.github.smallru8.util.Pair;
 
 public class PluginsManager {
@@ -55,7 +56,7 @@ public class PluginsManager {
 	 */
 	public void setUpPlugins() throws IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		pluginsClass.clear();
-		System.out.print("[INFO][PLUGINS]:Plugins setup...\n");
+		StdOutput.infoPrintln("Plugins setup...");
 		for(int i=0;i<jarUrl.size();i++) {
 			try {
 				
@@ -96,7 +97,8 @@ public class PluginsManager {
 				e.printStackTrace();
 			}
 		}
-		System.out.print("[INFO][PLUGINS]:Plugins setup done! Total plugins:" + jarUrl.size() + ".\n");
+		
+		StdOutput.infoPrintln("Plugins setup done! Total plugins:" + jarUrl.size());
 	}
 	
 	/**
