@@ -21,8 +21,7 @@ public class Embed {
 		embed.setColor(c);
 	    embed.setTitle(emo);
 	    embed.setDescription(str);
-	    ch.sendMessage(embed.build()).queue();
-	    
+	    ch.sendMessageEmbeds(embed.build()).queue();
 	}
 	
 }
