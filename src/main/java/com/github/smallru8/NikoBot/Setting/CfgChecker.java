@@ -153,8 +153,8 @@ public class CfgChecker {
 	}
 	
 	public void buildServerConf(ArrayList<Guild> list) {
-		StdOutput.infoPrintln(list.get(0).getId());
 		for(int i=0;i<list.size();i++) {
+			StdOutput.infoPrintln("Set DC server: "+list.get(i).getId());
 			if(!(new File("servers/"+list.get(i).getId()).exists())) {
 				String guildID = list.get(i).getId();
 				StdOutput.infoPrintln("Join server : " + guildID);

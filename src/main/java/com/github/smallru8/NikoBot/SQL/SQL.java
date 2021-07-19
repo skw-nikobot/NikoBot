@@ -24,7 +24,7 @@ public class SQL {
 	
 	public SQL() {
 		try {
-			//Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			Class.forName("org.sqlite.JDBC");
 			//Load sql config
 			Properties pro = new Properties();
