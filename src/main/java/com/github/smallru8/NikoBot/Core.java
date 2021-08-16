@@ -38,6 +38,12 @@ public class Core {
 	public static PluginsManager pluginsMGR;
 	public static void main( String[] args ) throws IOException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException
     {
+		String osName = System.getProperties().getProperty("os.name");
+		if(osName.indexOf("Windows") != -1||osName.indexOf("windows") != -1) {//windows
+			osType = true;
+		}else {
+			osType = false;
+		}
 		/*基本設定*/
 		configC = new CfgChecker();
 		configC.loadAll();
