@@ -16,9 +16,10 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.skunion.smallru8.util.Pair;
+
 import com.github.smallru8.NikoBot.Core;
 import com.github.smallru8.NikoBot.StdOutput;
-import com.github.smallru8.util.Pair;
 
 public class PluginsManager {
 	

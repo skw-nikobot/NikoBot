@@ -71,9 +71,9 @@
       <version>8.0.20</version>
 	</dependency>
 	<dependency>
-      <groupId>com.github.smallru8</groupId>
-      <artifactId>util</artifactId>
-      <version>1.7</version>
+      <groupId>org.skunion.smallru8</groupId>
+      <artifactId>Util</artifactId>
+      <version>1.8</version>
     </dependency>
     
     
@@ -90,9 +90,9 @@
       <url>https://jcenter.bintray.com</url>
     </repository>
     <repository>
-  		<id>BounceGateVPN</id>
-  		<name>BounceGateVPN</name>
-  		<url>https://raw.github.com/BounceGateVPN/mvn-repo/master</url>
+  		<id>Small2Space</id>
+  		<name>Small2Space</name>
+  		<url>https://raw.github.com/Small2Space/mvn-repo/master</url>
   	</repository>
   </repositories>
 </project>
