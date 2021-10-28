@@ -1,7 +1,5 @@
 package com.github.smallru8.NikoBot;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
@@ -20,11 +18,13 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 
 /**
- * NikoBot
+ * NikoBot3
  * @author smallru8
- * @version 2104.2
+ * @version 3.6.2110.1
  */
 public class Core {
+	
+	public static String version = "3.6.2110.1";//2021.10.28
 	
 	public static CfgChecker configC;
 	public static JDA botAPI;
@@ -32,11 +32,10 @@ public class Core {
 	public static boolean sleepFlag = false;
 	public static boolean osType = false;//windows = true;Linux = false;
 	
-	public static LibLoader libLoad;
-	
 	public static AdminData ADMINS;
 	public static PluginsManager pluginsMGR;
-	public static void main( String[] args ) throws IOException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException
+	
+	public static void main( String[] args ) throws InterruptedException
     {
 		String osName = System.getProperties().getProperty("os.name");
 		if(osName.indexOf("Windows") != -1||osName.indexOf("windows") != -1) {//windows
@@ -47,10 +46,6 @@ public class Core {
 		/*基本設定*/
 		configC = new CfgChecker();
 		configC.loadAll();
-		
-		libLoad = new LibLoader();
-		libLoad.load();
-		libLoad.loadExtLibs();
 		
 		ADMINS = new AdminData();
 		
@@ -77,4 +72,49 @@ public class Core {
 		pluginsMGR.loadPlugins();
 		pluginsMGR.setUpPlugins();
     }
+	
+	/**
+	 * 使用NikoBootLoader啟動
+	 */
+	public void loaderEntryPoint() {
+		String osName = System.getProperties().getProperty("os.name");
+		if(osName.indexOf("Windows") != -1||osName.indexOf("windows") != -1) {//windows
+			osType = true;
+		}else {
+			osType = false;
+		}
+		/*基本設定*/
+		configC = new CfgChecker();
+		configC.loadAll();
+		
+		ADMINS = new AdminData();
+		
+		JDABuilder jda = JDABuilder.createDefault(Setting.TOKEN);
+		jda.setAutoReconnect(true);
+		jda.addEventListeners(new EventSender());
+		jda.addEventListeners(new SysCMD());
+		jda.addEventListeners(new CommonCMD());
+		
+		Setting.status(jda);
+		
+		try {
+			botAPI = jda.build();
+			botAPI.getPresence().setActivity(Activity.playing(Setting.GAME));
+		} catch (LoginException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			botAPI.awaitReady();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		configC.buildServerConf(new ArrayList<Guild>(botAPI.getGuilds()));
+		
+		pluginsMGR = new PluginsManager();
+		pluginsMGR.loadPlugins();
+		pluginsMGR.setUpPlugins();
+	}
+	
 }

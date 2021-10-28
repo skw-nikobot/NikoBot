@@ -11,23 +11,26 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
 import com.github.smallru8.NikoBot.Core;
-import com.github.smallru8.NikoBot.LibLoader;
 import com.github.smallru8.NikoBot.StdOutput;
 import com.github.smallru8.util.Pair;
 
 public class PluginsManager {
 	
 	/** Plugins' path.*/
-	private Vector<String> jarUrl;
+	private ArrayList<URL> jarUrl;
 	/** All loaded plugins.*/
 	public Vector<Pair<PluginsInterface,String>> pluginsClass;
 	
+	private URLClassLoader pluginsClassLoader;
+	
 	public PluginsManager(){
-		jarUrl = new Vector<String>();
+		jarUrl = new ArrayList<URL>();
 		pluginsClass = new Vector<Pair<PluginsInterface,String>>();
 	}
 	
@@ -40,11 +43,16 @@ public class PluginsManager {
 		String[] fileLs = pluginsList.list();
 		for(int i = 0;i<fileLs.length;i++) {///取得jar數量(過濾其他檔案)
 			if(fileLs[i].indexOf(".jar") != -1) {
-				jarUrl.addElement("file:plugins/" + fileLs[i]);
+				try {
+					jarUrl.add(new URL("file:plugins/" + fileLs[i]));
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
 				System.out.println("[INFO][PLUGINS]:Load " + fileLs[i] + ".");
 			}
 		}
 		System.out.println("[INFO][PLUGINS]:" + jarUrl.size() + " plugins have been loaded.");
+		pluginsClassLoader =  new URLClassLoader((URL[]) jarUrl.toArray(), Core.class.getClassLoader()); 
 	}
 	
 	/**
@@ -54,17 +62,16 @@ public class PluginsManager {
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	public void setUpPlugins() throws IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void setUpPlugins(){
 		pluginsClass.clear();
 		StdOutput.infoPrintln("Plugins setup...");
-		for(int i=0;i<jarUrl.size();i++) {
-			try {
-				
-				URL url = new URL(jarUrl.elementAt(i));
-				@SuppressWarnings("resource")
-				URLClassLoader tmpClassLoader = new URLClassLoader(new URL[] { url }, LibLoader.Ext_LIB); 
-				
-				InputStream is = tmpClassLoader.findResource("Niko.yml").openStream();
+		
+		try {
+		
+			Enumeration<URL> niko_yml = pluginsClassLoader.findResources("Niko.yml");
+			
+			while(niko_yml.hasMoreElements()) {
+				InputStream is = niko_yml.nextElement().openStream();
 				/**
 				 * path=com.github.smallru8.......
 				 * startPermission=local/global
@@ -75,29 +82,18 @@ public class PluginsManager {
 				String startPermission = pro.getProperty("startPermission","global");
 				is.close();
 				
-				Class<?> tmpClass = tmpClassLoader.loadClass(loadPath);///第一個切入點
-
+				Class<?> tmpClass = pluginsClassLoader.loadClass(loadPath);///第一個切入點
+	
 				PluginsInterface tmpInterface = (PluginsInterface) tmpClass.getDeclaredConstructor().newInstance();///創建plugins class
 				Pair<PluginsInterface,String> pair = new Pair<PluginsInterface,String>();
 				pair.makePair(tmpInterface, startPermission);
 				pluginsClass.addElement(pair);
 				tmpInterface.onEnable();
-				
-			} catch (MalformedURLException | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				is.close();
 			}
+		}catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
 		}
-		
 		StdOutput.infoPrintln("Plugins setup done! Total plugins:" + jarUrl.size());
 	}
 	

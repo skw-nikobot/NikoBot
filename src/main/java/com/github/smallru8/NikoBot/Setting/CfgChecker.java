@@ -64,10 +64,6 @@ public class CfgChecker {
 			if(!f.exists()) {
 				f.mkdirs();
 			}
-			f = new File("libs");
-			if(!f.exists()) {
-				f.mkdirs();
-			}
 			f = new File("conf.d/servers");
 			if(!f.exists()) {
 				f.mkdirs();
@@ -89,9 +85,9 @@ public class CfgChecker {
 				fw.flush();
 				fw.close();
 			}
+			generateRestartScript();
 			StdOutput.infoPrintln("Checking config file...DONE!");
 		} catch (IOException e) {
-		// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -170,7 +166,6 @@ public class CfgChecker {
 						fw.flush();
 						fw.close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -181,6 +176,22 @@ public class CfgChecker {
 				if(!help.hasBeenSet())
 					help.setHelp("Using /help set <text> to set help.");
 			}
+		}
+	}
+	
+	private void generateRestartScript() throws IOException {
+		String bat = "java -Dfile.encoding=UTF8 -jar "+System.getProperty("java.class.path");	
+		String sh = "sleep 10\nnohup "+bat;
+		if(Core.osType){//WIN
+			FileWriter fw = new FileWriter(new File("restart.bat"));
+			fw.write(bat);
+			fw.flush();
+			fw.close();
+		}else {
+			FileWriter fw = new FileWriter(new File("restart.sh"));
+			fw.write(sh);
+			fw.flush();
+			fw.close();
 		}
 	}
 	
