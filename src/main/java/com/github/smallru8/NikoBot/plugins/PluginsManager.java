@@ -53,7 +53,7 @@ public class PluginsManager {
 			}
 		}
 		System.out.println("[INFO][PLUGINS]:" + jarUrl.size() + " plugins have been loaded.");
-		pluginsClassLoader =  new URLClassLoader((URL[]) jarUrl.toArray(), Core.class.getClassLoader()); 
+		pluginsClassLoader =  new URLClassLoader(jarUrl.toArray(new URL[0]), Core.class.getClassLoader()); 
 	}
 	
 	/**
