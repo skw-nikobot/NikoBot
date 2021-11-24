@@ -180,16 +180,15 @@ public class CfgChecker {
 	}
 	
 	private void generateRestartScript() throws IOException {
-		String bat = "java -Dfile.encoding=UTF8 -jar "+System.getProperty("java.class.path");	
-		String sh = "sleep 10\nnohup "+bat;
+		String startMain = "java -Dfile.encoding=UTF8 -jar "+System.getProperty("java.class.path");	
 		if(Core.osType){//WIN
 			FileWriter fw = new FileWriter(new File("restart.bat"));
-			fw.write(bat);
+			fw.write("timeout /t 10\n "+startMain);
 			fw.flush();
 			fw.close();
 		}else {
 			FileWriter fw = new FileWriter(new File("restart.sh"));
-			fw.write(sh);
+			fw.write("sleep 10\nnohup "+startMain);
 			fw.flush();
 			fw.close();
 		}
