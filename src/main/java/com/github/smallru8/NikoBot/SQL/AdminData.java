@@ -48,13 +48,18 @@ public class AdminData extends SQL{
 			}
 			br.close();
 			fr.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			conn.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

@@ -56,8 +56,9 @@ public class SQL {
 		try {
 			if(useMySQL)
 				conn = DriverManager.getConnection(host,name,passwd);
-			else
+			else {
 				conn = DriverManager.getConnection(host);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
