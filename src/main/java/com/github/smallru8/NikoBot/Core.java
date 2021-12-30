@@ -20,11 +20,11 @@ import net.dv8tion.jda.api.entities.Guild;
 /**
  * NikoBot3
  * @author smallru8
- * @version 3.6.2110.1
+ * @version 3.6.2112.1
  */
 public class Core {
 	
-	public static String version = "3.6.2111.1";//2021.11.23
+	public static String version = "3.6.2112.1";//2021.12.30
 	
 	public static CfgChecker configC;
 	public static JDA botAPI;
