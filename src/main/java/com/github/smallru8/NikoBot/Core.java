@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 /**
  * NikoBot3
@@ -24,7 +25,7 @@ import net.dv8tion.jda.api.entities.Guild;
  */
 public class Core {
 	
-	public static String version = "3.6.2112.1";//2021.12.30
+	public static String version = "4.0.2209.1";//2022.09.07
 	
 	public static CfgChecker configC;
 	public static JDA botAPI;
@@ -58,6 +59,7 @@ public class Core {
 		
 		JDABuilder jda = JDABuilder.createDefault(Setting.TOKEN);
 		jda.setAutoReconnect(true);
+		jda.enableIntents(GatewayIntent.MESSAGE_CONTENT);
 		jda.addEventListeners(new EventSender());
 		jda.addEventListeners(new SysCMD());
 		jda.addEventListeners(new CommonCMD());
