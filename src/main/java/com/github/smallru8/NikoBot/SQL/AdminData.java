@@ -30,6 +30,7 @@ public class AdminData extends SQL{
 		String sql = "CREATE TABLE ADMINS (UID VARCHAR(24) not NULL, PRIMARY KEY (UID));"; 
 		Connection conn = getSQLConnection();
 		try {
+			//TODO Fix bug SQLite conn exception
 			if (!isTableExist("ADMINS")) {//Table not exist. Create table
 				PreparedStatement ps = conn.prepareStatement(sql);
 				int ret = ps.executeUpdate();
