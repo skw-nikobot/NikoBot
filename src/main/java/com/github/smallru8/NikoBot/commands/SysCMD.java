@@ -43,10 +43,9 @@ public class SysCMD extends ListenerAdapter{
 				Embed.EmbedSender(Color.pink,cmd.getChannel(),":octagonal_sign: リロード! System reboot!","");
 				try {
 					if(!Core.osType)
-						Runtime.getRuntime().exec("sh ./restart.sh");//linux
+						Runtime.getRuntime().exec(new String[] {"sh","./restart.sh"});//linux
 					else
-						Runtime.getRuntime().exec("./restart.bat");//windows
-					
+						Runtime.getRuntime().exec(new String[]{"./restart.bat"});//windows
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

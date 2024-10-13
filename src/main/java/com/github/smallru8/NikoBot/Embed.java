@@ -3,7 +3,7 @@ package com.github.smallru8.NikoBot;
 import java.awt.Color;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 
 public class Embed {
@@ -15,7 +15,7 @@ public class Embed {
 	 * @param emo message line one.
 	 * @param str others message.
 	 */
-	public static void EmbedSender(Color c,MessageChannel ch,String emo,String str) {
+	public static void EmbedSender(Color c,MessageChannelUnion ch,String emo,String str) {
 		
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setColor(c);

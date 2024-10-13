@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -45,8 +45,8 @@ public class PluginsManager {
 		for(int i = 0;i<fileLs.length;i++) {///取得jar數量(過濾其他檔案)
 			if(fileLs[i].indexOf(".jar") != -1) {
 				try {
-					jarUrl.add(new URL("file:plugins/" + fileLs[i]));
-				} catch (MalformedURLException e) {
+					jarUrl.add(new URI("file:plugins/" + fileLs[i]).toURL());
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				System.out.println("[INFO][PLUGINS]:Load " + fileLs[i] + ".");
@@ -115,7 +115,6 @@ public class PluginsManager {
 				fw.flush();
 				fw.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -128,7 +127,6 @@ public class PluginsManager {
 			if(pluginAllow.equalsIgnoreCase("true"))
 				return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -145,8 +143,6 @@ public class PluginsManager {
 			pro.store(out, "");
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
 			e.printStackTrace();
 		}
 	}

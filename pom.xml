@@ -11,8 +11,8 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-	<maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+	<!--maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target-->
     <project.youtube.version>v3-rev182-1.22.0</project.youtube.version>
     <project.youtube.analytics.version>v1-rev63-1.22.0</project.youtube.analytics.version>
     <project.youtube.reporting.version>v1-rev10-1.22.0</project.youtube.reporting.version>
@@ -53,7 +53,7 @@
     <dependency>
       <groupId>net.dv8tion</groupId>
       <artifactId>JDA</artifactId>
-      <version>5.0.0-alpha.18</version>
+      <version>5.1.2</version>
 	</dependency>
 	<dependency>
       <groupId>org.greenrobot</groupId>

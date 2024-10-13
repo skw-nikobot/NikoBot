@@ -2,8 +2,6 @@ package com.github.smallru8.NikoBot;
 
 import java.util.ArrayList;
 
-import javax.security.auth.login.LoginException;
-
 import com.github.smallru8.NikoBot.SQL.AdminData;
 import com.github.smallru8.NikoBot.Setting.CfgChecker;
 import com.github.smallru8.NikoBot.Setting.Setting;
@@ -25,7 +23,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
  */
 public class Core {
 	
-	public static String version = "4.0.2209.1";//2022.09.07
+	public static String version = "4.0.2410.1";//2024.10.13
 	
 	public static CfgChecker configC;
 	public static JDA botAPI;
@@ -66,12 +64,8 @@ public class Core {
 		
 		Setting.status(jda);
 		
-		try {
-			botAPI = jda.build();
-			botAPI.getPresence().setActivity(Activity.playing(Setting.GAME));
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
+		botAPI = jda.build();
+		botAPI.getPresence().setActivity(Activity.playing(Setting.GAME));
 		
 		try {
 			botAPI.awaitReady();
